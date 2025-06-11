@@ -1,5 +1,6 @@
 // src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
+import logo from "../assets/logo.png"; // Asegúrate de tener un logo en esta ruta
 
 function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen, logout }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -20,7 +21,7 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen, logout }) {
         {/* Hamburguesa */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-white focus:outline-none"
+          className="text-white focus:outline-none cursor-pointer"
         >
           <svg
             className="w-8 h-8"
@@ -40,43 +41,7 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen, logout }) {
         {/* Título + toggle tema */}
         <div className="flex justify-center items-center space-x-2">
           <h1 className="text-3xl font-bold text-white">Hielitos Memé</h1>
-          <button
-            onClick={() => setDarkMode((m) => !m)}
-            className="text-white focus:outline-none"
-            title="Cambiar tema"
-          >
-            {darkMode ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m12.728 0l-1.414-1.414M6.05 6.05L4.636 7.464"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 3v18m9-9H3m16.364-5.364L6.636 18.364m12.728 0L6.636 5.636"
-                />
-              </svg>
-            )}
-          </button>
+          <img src={logo} alt="Logo" className="w-10 h-10 rounded-full" />
         </div>
 
         {/* ID usuario */}
