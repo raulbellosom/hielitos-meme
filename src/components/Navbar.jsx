@@ -1,9 +1,10 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
 
-function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
+function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen, logout }) {
   const [darkMode, setDarkMode] = useState(false);
 
-  // Opcional: si quieres que cambie la clase 'dark' en <html>
+  // Opcional: alterna la clase 'dark' en <html>
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
@@ -36,7 +37,7 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
           </svg>
         </button>
 
-        {/* Título centrado + icono modo */}
+        {/* Título + toggle tema */}
         <div className="flex justify-center items-center space-x-2">
           <h1 className="text-3xl font-bold text-white">Hielitos Memé</h1>
           <button
@@ -45,7 +46,6 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
             title="Cambiar tema"
           >
             {darkMode ? (
-              // Sol
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6"
@@ -61,7 +61,6 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
                 />
               </svg>
             ) : (
-              // Copo de nieve
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6"
@@ -80,13 +79,13 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
           </button>
         </div>
 
-        {/* ID usuario al final */}
+        {/* ID usuario */}
         <div className="flex justify-end text-white text-sm break-all">
           ID de Usuario: {userId}
         </div>
       </div>
 
-      {/* Sidebar idéntico al tuyo */}
+      {/* Sidebar */}
       <div
         className={`fixed inset-y-0 left-0 w-64 bg-gradient-to-br from-blue-700 to-purple-800 z-50 transform ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
@@ -96,7 +95,7 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
           <h2 className="text-2xl font-bold text-white">Menú</h2>
           <button
             onClick={() => setIsMenuOpen(false)}
-            className="text-white focus:outline-none"
+            className="text-white focus:outline-none cursor-pointer"
           >
             <svg
               className="w-6 h-6"
@@ -113,6 +112,7 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
             </svg>
           </button>
         </div>
+
         <div className="flex flex-col p-4 space-y-3">
           {[
             ["pos", "Punto de Venta"],
@@ -125,12 +125,24 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
             <button
               key={view}
               onClick={() => handleNavigation(view)}
-              className="w-full text-left px-4 py-2 text-white hover:bg-blue-600 rounded-lg transition duration-200"
+              className="w-full text-left cursor-pointer px-4 py-2 text-white hover:bg-blue-600 rounded-lg transition duration-200"
             >
               {label}
             </button>
           ))}
+
+          {/* Botón Cerrar sesión */}
+          <button
+            onClick={() => {
+              setIsMenuOpen(false);
+              logout();
+            }}
+            className="w-full text-left px-4 py-2 text-red-300 hover:bg-red-500 hover:text-white rounded-lg transition duration-200 mt-4"
+          >
+            Cerrar sesión
+          </button>
         </div>
+
         <div className="absolute bottom-4 left-4 text-white text-xs break-all">
           ID de Usuario: {userId}
         </div>
@@ -139,7 +151,7 @@ function Navbar({ setCurrentView, userId, isMenuOpen, setIsMenuOpen }) {
       {/* Overlay para cerrar el menú */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/20  z-40"
+          className="fixed inset-0 bg-black/20 z-40"
           onClick={() => setIsMenuOpen(false)}
         />
       )}

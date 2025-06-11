@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useState, useEffect, useCallback } from "react";
 import { DatabaseProvider } from "./contexts/DatabaseContext.jsx";
 import Navbar from "./components/Navbar.jsx";
@@ -14,7 +15,7 @@ export default function App() {
   const [view, setView] = useState("pos");
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Restores session from localStorage on mount
+  // Restaura sesión
   useEffect(() => {
     const storedId = localStorage.getItem("hielitosUserId");
     const storedName = localStorage.getItem("hielitosUserName");
@@ -33,9 +34,11 @@ export default function App() {
     setCurrentUser(null);
     localStorage.removeItem("hielitosUserId");
     localStorage.removeItem("hielitosUserName");
+    setView("pos");
+    setMenuOpen(false);
   }, []);
 
-  // Auto-logout after 5 minutes inactivity
+  // Auto-logout tras 5 min inactivo
   useEffect(() => {
     if (!currentUser) return;
     let timer = setTimeout(logout, 5 * 60 * 1000);
@@ -64,6 +67,7 @@ export default function App() {
             userId={currentUser.Nombre}
             isMenuOpen={menuOpen}
             setIsMenuOpen={setMenuOpen}
+            logout={logout}
           />
           <div className="container mx-auto px-4 py-6">
             {view === "users" && <UsersModule />}
