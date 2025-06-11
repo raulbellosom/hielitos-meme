@@ -24,11 +24,8 @@
     }
   },
   "dependencies": {
-    "@capacitor-community/sqlite": "^5.7.4",
-    "@capacitor/cli": "^4.8.2",
-    "@capacitor/core": "^5.0.0",
     "@tailwindcss/vite": "^4.1.8",
-    "jeep-sqlite": "^2.8.0",
+    "dexie": "^4.0.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "sql.js": "^1.12.0",
