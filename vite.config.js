@@ -31,6 +31,15 @@ export default defineConfig({
           },
         ],
       },
+      workbox: {
+        // Sólo cachear js/css/html/ico/png/svg/webmanifest, NO el .wasm
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webmanifest}"],
+        globIgnores: ["**/sql-wasm.wasm"],
+        cleanupOutdatedCaches: true,
+      },
     }),
   ],
+  build: {
+    target: "esnext",
+  },
 });
