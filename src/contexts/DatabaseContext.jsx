@@ -1,24 +1,83 @@
-import React, { createContext, useEffect, useState } from "react";
-import * as db from "../services/db.js";
+// src/contexts/DatabaseContext.jsx
+import React, { createContext, useContext } from "react";
+import {
+  getUsuarios,
+  addUsuario,
+  updateUsuario,
+  deleteUsuario,
+  verifyUsuario,
+  getCategorias,
+  addCategoria,
+  updateCategoria,
+  deleteCategoria,
+  getSabores,
+  addSabor,
+  updateSabor,
+  deleteSabor,
+  getMovimientos,
+  addMovimiento,
+  getVentas,
+  addVenta,
+  addDetalleVenta,
+  getDetalleByVenta,
+} from "../services/db.js";
 
-export const DatabaseContext = createContext(null);
+// Creamos el contexto con todas las funciones CRUD
+export const DatabaseContext = createContext({
+  getUsuarios,
+  addUsuario,
+  updateUsuario,
+  deleteUsuario,
+  verifyUsuario,
+  getCategorias,
+  addCategoria,
+  updateCategoria,
+  deleteCategoria,
+  getSabores,
+  addSabor,
+  updateSabor,
+  deleteSabor,
+  getMovimientos,
+  addMovimiento,
+  getVentas,
+  addVenta,
+  addDetalleVenta,
+  getDetalleByVenta,
+});
 
 export function DatabaseProvider({ children }) {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    db.initDB().then(() => setReady(true));
-  }, []);
-
-  if (!ready) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <span>Cargando base de datos local…</span>
-      </div>
-    );
-  }
+  // Agrupamos las funciones en un solo objeto
+  const api = {
+    getUsuarios,
+    addUsuario,
+    updateUsuario,
+    deleteUsuario,
+    verifyUsuario,
+    getCategorias,
+    addCategoria,
+    updateCategoria,
+    deleteCategoria,
+    getSabores,
+    addSabor,
+    updateSabor,
+    deleteSabor,
+    getMovimientos,
+    addMovimiento,
+    getVentas,
+    addVenta,
+    addDetalleVenta,
+    getDetalleByVenta,
+  };
 
   return (
-    <DatabaseContext.Provider value={db}>{children}</DatabaseContext.Provider>
+    <DatabaseContext.Provider value={api}>{children}</DatabaseContext.Provider>
   );
+}
+
+export function useDatabase() {
+  const database = useContext(DatabaseContext);
+  if (!database) {
+    throw new Error("useDatabase debe usarse dentro de <DatabaseProvider>");
+  }
+  return database;
 }

@@ -1,8 +1,7 @@
 // src/services/db.js
 import Dexie from "dexie";
 
-// 1) Definir la base y sus tablas
-const db = new Dexie("hielitosDB");
+export const db = new Dexie("hielitosDB");
 db.version(1).stores({
   Usuarios: "ID_Usuario, Nombre, Password",
   Categorias:
@@ -16,7 +15,12 @@ db.version(1).stores({
   Detalle_Venta: "ID_Detalle, ID_Venta, ID_Sabor, Cantidad_Vendida, Subtotal",
 });
 
-// Helpers
+// Al crearse la DB por primera vez, sembramos el usuario admin/admin
+db.on("populate", async () => {
+  const ID_Usuario = crypto.randomUUID();
+  await db.Usuarios.add({ ID_Usuario, Nombre: "admin", Password: "admin" });
+});
+
 const now = () => Date.now();
 const uuid = () => crypto.randomUUID();
 
