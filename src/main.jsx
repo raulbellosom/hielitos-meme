@@ -8,10 +8,23 @@ import "./index.css";
 import { defineCustomElements as jeepSqlite } from "jeep-sqlite/loader";
 jeepSqlite(window);
 
-/**
- * Inicializa persistencia de almacenamiento y registro del Service Worker.
- * Al estar dentro de una función async, evitamos el error de top-level await.
- */
+// gestor de conexiones SQLite-Web
+import { CapacitorSQLite, SQLiteConnection } from "@capacitor-community/sqlite";
+const sqlite = new SQLiteConnection(CapacitorSQLite);
+
+// cerrar la conexión solo si existe
+window.addEventListener("beforeunload", async () => {
+  try {
+    const conns = await sqlite.getAllConnections();
+    if (conns.includes("hielitosDB")) {
+      await sqlite.closeConnection("hielitosDB");
+      console.log("Conexión SQLite cerrada al salir");
+    }
+  } catch (e) {
+    console.error("Error cerrando conexión SQLite:", e);
+  }
+});
+
 async function initAppFeatures() {
   if (navigator.storage && navigator.storage.persist) {
     const granted = await navigator.storage.persist();
@@ -28,7 +41,6 @@ async function initAppFeatures() {
   }
 }
 
-// Llamada a la función de inicialización
 initAppFeatures();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
