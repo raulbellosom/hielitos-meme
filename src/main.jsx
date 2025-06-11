@@ -7,6 +7,11 @@ import "./index.css";
 import { defineCustomElements as jeepSqlite } from "jeep-sqlite/loader";
 jeepSqlite(window);
 
+if (navigator.storage && navigator.storage.persist) {
+  const granted = await navigator.storage.persist();
+  console.log("Almacenamiento persistente:", granted);
+}
+
 if ("serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
